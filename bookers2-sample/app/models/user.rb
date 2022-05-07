@@ -4,10 +4,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :books
+  # モデルの関連付け
+  has_many :books, dependent: :destroy
+  has_many :book_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+
   has_one_attached :profile_image
 
+  # 名前を２～２０文字に制限とuniqueness: trueで一意性を持たせる
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
+  # 自己紹介文を最大で５０文字までの制限
   validates :introduction, length: {maximum: 50}
 
 
