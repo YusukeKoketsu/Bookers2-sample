@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'searches/search'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :users
   root to: 'homes#top'
@@ -14,9 +15,11 @@ Rails.application.routes.draw do
   # create(follow)、destroy(unfollow)とfollows,followersの一覧用を追加
   resources :users, only: [:index,:show,:edit,:update] do
     resource :relationships, only: [:create, :destroy]
-  	get 'follows' => 'relationships#follows', as: 'follows'
-  	get 'followers' => 'relationships#followers', as: 'followers'
+  	get 'follows' => 'relationships#follower', as: 'follows'
+  	get 'followers' => 'relationships#followed', as: 'followers'
   end
+  # 検索機能のルーティング
+  get '/search', to: 'searches#search'
 
 
 

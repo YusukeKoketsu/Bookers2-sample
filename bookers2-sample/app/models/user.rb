@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
 
   # フォローしている人の一覧
-  has_many :follower_user, through: :follwed, source: :follower
+  has_many :follower_user, through: :followed, source: :follower
   # フォローされている人の一覧（フォロワー）
   has_many :following_user, through: :follower, source: :followed
 
@@ -47,6 +47,19 @@ class User < ApplicationRecord
   # followingメソッド＝現在自分がフォローしているユーザーの確認
   def following?(user)
     following_user.include?(user)
+  end
+
+
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    elsif method == 'forward'
+      User.where('name LIKE ?', content + '%')
+    elsif method == 'backward'
+      User.where('name LIKE ?', '%' + content)
+    else
+      User.where('name LIKE ?', '%' + content + '%')
+    end
   end
 
 end
