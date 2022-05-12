@@ -14,15 +14,20 @@ class Book < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
-
+# selfは自己、この場合はBook　SearchesControllerのBook.search_for
   def self.search_for(content, method)
+    # 検索バーの記述　"完全一致"=>"perfect","前方一致"=>"forward","後方一致"=>"backward","部分一致"=>"partial"
     if method == 'perfect'
+      # 完全一致
       Book.where(title: content)
     elsif method == 'forward'
+      # 前方一致　content+'%'
       Book.where('title LIKE ?', content+'%')
     elsif method == 'backward'
+      # 後方一致　'%'+content
       Book.where('title LIKE ?', '%'+content)
     else
+      # 部分一致　'%'+content+'%'
       Book.where('title LIKE ?', '%'+content+'%')
     end
   end
