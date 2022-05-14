@@ -15,10 +15,17 @@ class BookCommentsController < ApplicationController
   end
 
   def destroy
+     @book = Book.find(params[:book_id])
+     book_comment = @book.book_comments.find(params[:id])
+     book_comment.destroy
+
+
+
     # URLの最後に/:idが含まれます。コントローラで「params[:id]」と記述することで、このURLに含まれる:idを取得できる
     # コメントのidを取得し、どのbookに対してのコメントかをbook_idで取得して削除する
-    BookComment.find_by(id: params[:id], book_id: params[:book_id]).destroy
+    # BookComment.find_by(id: params[:id], book_id: params[:book_id]).destroy
     # redirect_to request.referer
+
   end
 
   private
