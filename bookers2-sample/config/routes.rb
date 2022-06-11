@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
     # １つのbookに対していくつもコメントできるので、resoucesと複数形を使用する
-    resources :book_comments, onlr: [:create, :destroy]
+    resources :book_comments, only: [:create, :destroy]
     # 1つのbookに対してユーザーは一回しかいいねができないようにする為、resourceと単数形を使用する
     resource :favorites, only: [:create, :destroy]
   end
